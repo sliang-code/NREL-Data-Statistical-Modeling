@@ -1,0 +1,124 @@
+For electricity cooling energy
+
+Neural network:
+
+Include Heating vars & Zero responding var:
+
+1. Tier = 5000, hidden layer size = (64, 32) = 9158259.11543844
+2. Tier = 5000, hidden layer size = (64, ) = 10225411.64618723
+3. Tier = 5000, hidden layer size = (128, 64) = 12377486.146415083
+4. Tier = 5000, hidden layer size = (32, 16) = 8324749.175634304
+5. Tier = 5000, hidden layer size = (32, ) = 10225115.396437135
+
+6. Tier = 10000, hidden layer size = (32, 16) = 8324749.175634304 (5000 Tier Overfit)
+
+
+Exclude Heating vars:
+Remaining: in.geometry_building_type_acs	in.geometry	in.geometry_floor_area	in.heating_fuel	in.hvac_cooling_efficiency	in.income	in.occupants	K.cooling	in.hvac_cooling_type	in.misc_extra_refrigerator	in.vintage
+1. Tier = 5000, hidden layer size = (32, 16) = 8907386.898667002
+
+
+Ablation analysis:
+in.hvac_heating_type_and_fuel: MSE = 7,774,382.97
+in.water_heater_efficiency: MSE = 7,836,641.80
+in.misc_pool: MSE = 7,976,255.54
+in.income: MSE = 8,154,796.64
+K.cooling: MSE = 8,248,895.69
+in.vintage: MSE = 8,323,690.44
+in.misc_extra_refrigerator: MSE = 8,377,625.91
+in.cooking_range: MSE = 8,393,310.28
+K.heating: MSE = 8,412,200.64
+in.lighting: MSE = 8,423,032.80
+in.hvac_cooling_efficiency: MSE = 8,462,230.31
+in.occupants: MSE = 8,472,087.19
+in.heating_fuel: MSE = 8,838,215.89
+in.clothes_dryer: MSE = 8,862,891.53
+in.geometry: MSE = 9,139,297.76
+in.geometry_floor_area: MSE = 9,536,797.95
+in.geometry_building_type_acs: MSE = 10,122,118.98
+in.hvac_cooling_type: MSE = 12,349,908.13
+
+Gradient boosting method
+1. n_estimators=300,
+        learning_rate=0.05,
+        max_depth=5,
+        subsample=0.8,
+        random_state=42 = 8022569.838248546
+2. n_estimators=300,
+        learning_rate=0.03,
+        max_depth=5,
+        subsample=0.8,
+        random_state=42 = 7973307.979105951
+3. n_estimators=300,
+        learning_rate=0.03,
+        max_depth=5,
+        subsample=0.7,
+        random_state=42 = 7968312.14201218
+4. n_estimators=350,
+        learning_rate=0.03,
+        max_depth=5,
+        subsample=0.7,
+        random_state=42 = 7957543.830642178
+5. n_estimators=350,
+        learning_rate=0.03,
+        max_depth=6,
+        subsample=0.7,
+        random_state=42 = 7951956.813171046
+
+
+
+GBR
+1. Heating energy included: with 25,75 th percentile + 17000 filter = 5774124.876713916
+2. Heating energy excluded: with 25,75 th percentile + 17000 filter = 5842780.403251632
+3. Heating energy included: with z-score filter = 6159991.187015722
+4. Heating energy included with 25th and 75th filter =5638390.116979504
+
+
+Cooling energy:
+Random Forest Regressor: 7424055.85
+
+
+Tuned MSE: 20988192.427505188
+
+
+
+                          Feature  Importance
+8                     in.geometry    0.168476
+9          in.geometry_floor_area    0.093499
+11                   in.occupants    0.086793
+17                     in.vintage    0.079704
+4                       K.heating    0.073956
+3                       K.cooling    0.062460
+13           in.hvac_cooling_type    0.053327
+1                       in.income    0.052880
+12     in.water_heater_efficiency    0.047707
+7   in.geometry_building_type_acs    0.042406
+15                    in.lighting    0.040874
+16     in.misc_extra_refrigerator    0.038447
+0      in.hvac_cooling_efficiency    0.037106
+14  in.hvac_heating_type_and_fuel    0.034679
+10                in.heating_fuel    0.025738
+6                in.cooking_range    0.022353
+5                in.clothes_dryer    0.020884
+2                    in.misc_pool    0.018712
+
+
+                          Feature  Importance
+8                     in.geometry    0.314024
+7   in.geometry_building_type_acs    0.180429
+13           in.hvac_cooling_type    0.160998
+9          in.geometry_floor_area    0.099757
+1                       in.income    0.044162
+14  in.hvac_heating_type_and_fuel    0.028435
+11                   in.occupants    0.024551
+17                     in.vintage    0.022145
+3                       K.cooling    0.019168
+10                in.heating_fuel    0.019132
+4                       K.heating    0.018323
+5                in.clothes_dryer    0.016829
+0      in.hvac_cooling_efficiency    0.015366
+16     in.misc_extra_refrigerator    0.009622
+12     in.water_heater_efficiency    0.008608
+15                    in.lighting    0.007630
+6                in.cooking_range    0.006176
+2                    in.misc_pool    0.004645
